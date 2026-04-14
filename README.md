@@ -1,8 +1,9 @@
 # LUT Estimator
 
-![License](https://img.shields.io/badge/license-MIT-green.svg)
-![Python](https://img.shields.io/badge/python-3.9%2B-blue.svg)
-![PyPI](https://img.shields.io/pypi/v/lut-estimator.svg)
+[![PyPI](https://img.shields.io/pypi/v/lut-estimator.svg)](https://pypi.org/project/lut-estimator/)
+[![GitHub](https://img.shields.io/badge/github-kinn00kinn%2FLUT--Estimator-24292f.svg)](https://github.com/kinn00kinn/LUT-Estimator)
+[![License](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
+[![Python](https://img.shields.io/badge/python-3.9%2B-blue.svg)](https://pypi.org/project/lut-estimator/)
 
 Estimate a 3D LUT from a before/after image pair and apply that look to another image.
 The package is published on PyPI and can be used either as a CLI tool or as a small Python library.
@@ -18,6 +19,18 @@ This project is for cases where you have:
 - another target image that should receive a similar look
 
 The estimator samples the before/after pair, reconstructs a 3D LUT, and applies that LUT to the target image with trilinear interpolation.
+
+## Example Result
+
+<p align="center">
+  <img src="https://raw.githubusercontent.com/kinn00kinn/LUT-Estimator/main/img/base.JPG" width="30%" alt="Input image before grading">
+  <img src="https://raw.githubusercontent.com/kinn00kinn/LUT-Estimator/main/img/apply_lut.JPG" width="30%" alt="Reference image after grading">
+  <img src="https://raw.githubusercontent.com/kinn00kinn/LUT-Estimator/main/apply_estimated_lut.jpg" width="30%" alt="Image processed with the estimated LUT">
+</p>
+
+<p align="center">
+  <em>Left: source image, center: reference grading, right: target processed with the estimated LUT</em>
+</p>
 
 ## Features
 
