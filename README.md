@@ -5,6 +5,8 @@
 
 Estimate a 3D LUT from a pair of images and apply that look to another image. The project is packaged as a small Python library with a CLI, so it is easier to reuse in scripts, experiments, and OSS workflows.
 
+Japanese documentation is available in [README.ja.md](README.ja.md).
+
 <p align="center">
   <img src="img/base.JPG" width="400" alt="Original image">
 </p>
@@ -104,6 +106,12 @@ Run tests with:
 pytest
 ```
 
+Install hooks for local formatting and basic checks:
+
+```bash
+pre-commit install
+```
+
 ## Project Structure
 
 ```text
@@ -124,3 +132,9 @@ lut_tool.py    Backward-compatible entrypoint
 ## License
 
 Released under the MIT License.
+
+## Community
+
+- Contribution guide: [CONTRIBUTING.md](CONTRIBUTING.md)
+- Code of conduct: [CODE_OF_CONDUCT.md](CODE_OF_CONDUCT.md)
+- Release notes: [CHANGELOG.md](CHANGELOG.md)

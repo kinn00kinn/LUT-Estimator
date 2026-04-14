@@ -1,6 +1,7 @@
 from pathlib import Path
 
 import numpy as np
+import pytest
 
 from lut_estimator.core import apply_lut_trilinear, estimate_lut, save_cube_lut
 
@@ -52,3 +53,22 @@ def test_save_cube_lut_writes_expected_header(tmp_path: Path) -> None:
     content = output.read_text(encoding="utf-8")
     assert 'TITLE "Estimated LUT"' in content
     assert "LUT_3D_SIZE 2" in content
+
+
+def test_estimate_lut_rejects_invalid_parameters() -> None:
+    before = np.zeros((4, 4, 3), dtype=np.uint8)
+    after = np.zeros((4, 4, 3), dtype=np.uint8)
+
+    with pytest.raises(ValueError, match="sample_rate"):
+        estimate_lut(before, after, sample_rate=0)
+
+    with pytest.raises(ValueError, match="blur_ksize"):
+        estimate_lut(before, after, blur_ksize=2)
+
+
+def test_apply_lut_trilinear_rejects_invalid_lut_shape() -> None:
+    image = np.zeros((2, 2, 3), dtype=np.uint8)
+    lut = np.zeros((2, 2, 3), dtype=np.float32)
+
+    with pytest.raises(ValueError, match="lut must have shape"):
+        apply_lut_trilinear(image, lut)

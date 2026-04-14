@@ -19,6 +19,12 @@ python -m pip install -e .[dev]
 pytest
 ```
 
+## Local Checks
+
+```bash
+pre-commit run --all-files
+```
+
 If `pytest` is not installed yet, install the development dependencies first:
 
 ```bash
