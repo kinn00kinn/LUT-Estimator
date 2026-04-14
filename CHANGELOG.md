@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file.
 
+## [0.1.1] - 2026-04-15
+
+- Added release documentation for manual PyPI publishing.
+- Added OSS support files including code of conduct, editor config, and pre-commit config.
+- Added a separate Japanese README while keeping English as the default README.
+- Expanded regression coverage for invalid parameter and invalid LUT shape cases.
+
 ## [0.1.0] - 2026-04-14
 
 - Split the project into a reusable library package and a CLI.

@@ -5,25 +5,9 @@
 
 Estimate a 3D LUT from a pair of images and apply that look to another image. The project is packaged as a small Python library with a CLI, so it is easier to reuse in scripts, experiments, and OSS workflows.
 
-Japanese documentation is available in [README.ja.md](README.ja.md).
+Japanese documentation is available in `README.ja.md`.
 
-<p align="center">
-  <img src="img/base.JPG" width="400" alt="Original image">
-</p>
-
-<p align="center"><b>Original image</b></p>
-
-<p align="center">
-  <img src="img/apply_lut.JPG" width="400" alt="Reference image with grading applied">
-</p>
-
-<p align="center"><b>Reference image with grading applied</b></p>
-
-<p align="center">
-  <img src="apply_estimated_lut.jpg" width="400" alt="Image processed with the estimated LUT">
-</p>
-
-<p align="center"><b>Image processed with the estimated LUT</b></p>
+Example images are included in the repository under `img/` and in the generated sample output files.
 
 ## Features
 
@@ -138,3 +122,17 @@ Released under the MIT License.
 - Contribution guide: [CONTRIBUTING.md](CONTRIBUTING.md)
 - Code of conduct: [CODE_OF_CONDUCT.md](CODE_OF_CONDUCT.md)
 - Release notes: [CHANGELOG.md](CHANGELOG.md)
+
+## Publishing
+
+Build distributions:
+
+```bash
+python -m build
+```
+
+Validate package metadata:
+
+```bash
+python -m twine check dist/*
+```
