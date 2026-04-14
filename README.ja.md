@@ -2,7 +2,7 @@
 
 英語版 README を既定としつつ、日本語の概要をこちらに分離しています。
 
-画像の before / after ペアから 3D LUT を推定し、そのルックを別の画像へ適用する Python ツールです。ライブラリ API と CLI の両方を用意しているため、スクリプト利用にも OSS 利用にも載せやすい構成にしています。
+画像の before / after ペアから 3D LUT を推定し、そのルックを別の画像へ適用する Python ツールです。PyPI に公開されており、CLI と Python API の両方を使えます。
 
 ## 主な特徴
 
@@ -14,14 +14,21 @@
 
 ## インストール
 
+PyPI から入れる場合:
+
 ```bash
-python -m pip install -e .[dev]
+python -m pip install lut-estimator
 ```
 
-実行だけでよければ:
+インストール後は:
+
+- `lut-estimator` コマンドを実行できる
+- Python から `lut_estimator` を import できる
+
+開発用にソースから入れる場合:
 
 ```bash
-python -m pip install -e .
+python -m pip install -e .[dev]
 ```
 
 ## CLI の使い方
@@ -35,6 +42,12 @@ lut-estimator \
   --lut-size 33 \
   --sample-rate 0.02 \
   --blur-ksize 0
+```
+
+ヘルプ表示:
+
+```bash
+lut-estimator --help
 ```
 
 ## 開発

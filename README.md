@@ -2,38 +2,63 @@
 
 ![License](https://img.shields.io/badge/license-MIT-green.svg)
 ![Python](https://img.shields.io/badge/python-3.9%2B-blue.svg)
+![PyPI](https://img.shields.io/pypi/v/lut-estimator.svg)
 
-Estimate a 3D LUT from a pair of images and apply that look to another image. The project is packaged as a small Python library with a CLI, so it is easier to reuse in scripts, experiments, and OSS workflows.
+Estimate a 3D LUT from a before/after image pair and apply that look to another image.
+The package is published on PyPI and can be used either as a CLI tool or as a small Python library.
 
 Japanese documentation is available in `README.ja.md`.
 
-Example images are included in the repository under `img/` and in the generated sample output files.
+## Why This Exists
+
+This project is for cases where you have:
+
+- a source image before grading
+- a reference image after grading
+- another target image that should receive a similar look
+
+The estimator samples the before/after pair, reconstructs a 3D LUT, and applies that LUT to the target image with trilinear interpolation.
 
 ## Features
 
-- Estimates a 3D LUT from before/after image pairs using a two-stage interpolation strategy.
-- Applies LUTs with trilinear interpolation to reduce banding artifacts.
-- Supports optional Gaussian blur before estimation to stabilize noisy inputs.
-- Exports the estimated LUT as a standard `.cube` file.
-- Provides both a Python API and a command-line interface.
+- Estimates a 3D LUT from aligned before/after image pairs
+- Applies LUTs with trilinear interpolation to reduce banding
+- Supports optional Gaussian blur before estimation
+- Exports the estimated LUT as a standard `.cube` file
+- Provides both a CLI and a Python API
 
-## Installation
+## Install
 
-Clone the repository and install it in editable mode:
+Install from PyPI:
+
+```bash
+python -m pip install lut-estimator
+```
+
+After installation, you can:
+
+- run the `lut-estimator` command from your shell
+- import `lut_estimator` from Python
+
+For development from source:
 
 ```bash
 python -m pip install -e .[dev]
 ```
 
-If you only need runtime dependencies:
+## CLI Usage
+
+Basic usage:
 
 ```bash
-python -m pip install -e .
+lut-estimator \
+  --before before.jpg \
+  --after after.jpg \
+  --target target.jpg \
+  --output estimated_result.jpg
 ```
 
-## Quick Start
-
-Run the CLI with a before/after pair and a target image:
+Example with tuning parameters:
 
 ```bash
 lut-estimator \
@@ -43,29 +68,36 @@ lut-estimator \
   --output estimated_result.jpg \
   --lut-size 33 \
   --sample-rate 0.02 \
-  --blur-ksize 0
+  --blur-ksize 0 \
+  --seed 42
 ```
 
 This writes:
 
-- The transformed image to `estimated_result.jpg`
-- A companion LUT file to `estimated_result.cube` unless `--no-cube` is passed
+- the transformed image to the path given by `--output`
+- a companion `.cube` LUT file unless `--no-cube` is passed
 
-You can also keep using the legacy script entrypoint:
+Show CLI help:
 
 ```bash
-python lut_tool.py --before img/base.JPG --after img/apply_lut.JPG --target img/base.JPG
+lut-estimator --help
 ```
 
-## Python API
+Legacy script entrypoint:
+
+```bash
+python lut_tool.py --before before.jpg --after after.jpg --target target.jpg
+```
+
+## Python Usage
 
 ```python
 from lut_estimator import estimate_and_apply_lut
 
 estimate_and_apply_lut(
-    before_image_path="img/base.JPG",
-    after_image_path="img/apply_lut.JPG",
-    target_image_path="img/base.JPG",
+    before_image_path="before.jpg",
+    after_image_path="after.jpg",
+    target_image_path="target.jpg",
     output_image_path="estimated_result.jpg",
     lut_size=33,
     sample_rate=0.02,
@@ -77,58 +109,46 @@ estimate_and_apply_lut(
 
 ## Parameters
 
-- `lut_size`: LUT grid resolution. Larger values are more accurate but slower.
+- `lut_size`: LUT grid resolution. Larger values are usually more accurate but slower.
 - `sample_rate`: Fraction of pixels used for LUT estimation.
 - `blur_ksize`: Odd Gaussian kernel size used before estimation. Set `0` to disable blur.
 - `seed`: Optional random seed for reproducible sampling.
 
-## Development
-
-Run tests with:
-
-```bash
-pytest
-```
-
-Install hooks for local formatting and basic checks:
-
-```bash
-pre-commit install
-```
-
-## Project Structure
+## Project Layout
 
 ```text
 src/lut_estimator/
   core.py      Core LUT estimation and application logic
   cli.py       Command-line interface
 tests/
-  test_core.py Minimal regression tests
-lut_tool.py    Backward-compatible entrypoint
+  test_core.py Regression tests
+lut_tool.py    Backward-compatible script entrypoint
 ```
 
 ## Notes
 
-- Input images are expected to be aligned before/after pairs.
-- If the before/after images have different sizes, both are resized to the smaller common resolution for estimation.
-- The current estimator assumes an RGB-to-RGB global color transform rather than localized edits.
+- Input images should be aligned before/after pairs.
+- If the before/after images differ in size, both are resized to the smaller common resolution for estimation.
+- The current estimator models a global RGB-to-RGB transform rather than localized retouching.
 
-## License
+## Development
 
-Released under the MIT License.
+Run tests:
 
-## Community
+```bash
+pytest
+```
 
-- Contribution guide: [CONTRIBUTING.md](CONTRIBUTING.md)
-- Code of conduct: [CODE_OF_CONDUCT.md](CODE_OF_CONDUCT.md)
-- Release notes: [CHANGELOG.md](CHANGELOG.md)
+Install pre-commit hooks:
 
-## Publishing
+```bash
+pre-commit install
+```
 
 Build distributions:
 
 ```bash
-python -m build
+python -m build --no-isolation
 ```
 
 Validate package metadata:
@@ -136,3 +156,14 @@ Validate package metadata:
 ```bash
 python -m twine check dist/*
 ```
+
+## Community
+
+- Contribution guide: [CONTRIBUTING.md](CONTRIBUTING.md)
+- Code of conduct: [CODE_OF_CONDUCT.md](CODE_OF_CONDUCT.md)
+- Release notes: [CHANGELOG.md](CHANGELOG.md)
+- Release procedure: [RELEASE.md](RELEASE.md)
+
+## License
+
+Released under the MIT License.
